@@ -20,6 +20,8 @@
     <string name="congratulations">Congratulations!</string>
     <string name="share">Share</string>
     <string name="sharing_not_available">Sharing Not Available</string>
+    <string name="action_favorite">action_favorite</string>
+    <string name="action_settings">action_settings</string>
 
 
 </resources>

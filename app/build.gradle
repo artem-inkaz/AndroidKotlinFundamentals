@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-kapt'
+//    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 //apply plugin: "androidx.navigation.safeargs" для совместных Java и Kotlin проектов
 apply plugin: "androidx.navigation.safeargs.kotlin"
@@ -35,6 +36,7 @@ android {
 
     buildFeatures {
         dataBinding true
+//        viewBinding = true
     }
 
 }
