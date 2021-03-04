@@ -60,9 +60,10 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha08"
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    //ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 }
