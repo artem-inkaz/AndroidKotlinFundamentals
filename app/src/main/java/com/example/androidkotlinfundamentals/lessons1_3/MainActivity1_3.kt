@@ -1,4 +1,4 @@
-package com.example.androidkotlinfundamentals
+package com.example.androidkotlinfundamentals.lessons1_3
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,9 +7,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.databinding.ActivityMainBinding
-
-class MainActivity : AppCompatActivity() {
+// при запуске переименовать MainActivity1_3  в MainActivity
+class MainActivity1_3 : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
 

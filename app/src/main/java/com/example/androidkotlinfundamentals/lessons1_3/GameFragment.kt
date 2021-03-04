@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androidkotlinfundamentals
+package com.example.androidkotlinfundamentals.lessons1_3
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.androidkotlinfundamentals.GameFragmentDirections
+import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
@@ -103,8 +105,7 @@ class GameFragment : Fragment() {
                         // Using directions to navigate to the GameWonFragment
                         // GameFragmentDirections для сохранения данных между фрагментами
                         view.findNavController()
-                            .navigate(GameFragmentDirections
-                                .actionGameFragmentToGameWonFragment(numQuestions,questionIndex))
+                            .navigate(GameFragmentDirections.actionGameFragmentToGameWonFragment(numQuestions, questionIndex))
                     }
                 } else {
                     // Game over! A wrong answer sends us to the gameOverFragment.

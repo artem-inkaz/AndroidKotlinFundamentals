@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.navigation
+package com.example.androidkotlinfundamentals.lessons1_3
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -23,10 +23,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.androidkotlinfundamentals.R
 
-class RulesFragment : Fragment() {
+class AboutFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rules, container, false)
+        return inflater.inflate(R.layout.fragment_about, container, false)
     }
 }

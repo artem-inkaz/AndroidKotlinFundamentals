@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.androidkotlinfundamentals
+package com.example.androidkotlinfundamentals.lessons1_3
 
 import android.content.Intent
 import android.os.Bundle
@@ -23,6 +23,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.androidkotlinfundamentals.GameWonFragmentArgs
+import com.example.androidkotlinfundamentals.GameWonFragmentDirections
+import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.databinding.FragmentGameWonBinding
 
 class GameWonFragment : Fragment() {

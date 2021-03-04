@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.androidkotlinfundamentals
+package com.example.androidkotlinfundamentals.lessons1_3
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +23,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.androidkotlinfundamentals.GameOverFragmentDirections
+import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.databinding.FragmentGameOverBinding
 
 class GameOverFragment : Fragment() {
