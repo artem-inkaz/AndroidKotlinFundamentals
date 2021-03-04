@@ -76,6 +76,12 @@ class GameFragment : Fragment() {
         viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
             binding.wordText.text = newWord
         })
+        // Step 1: Use LiveData to detect a game-finished event
+//         Observer for the Game finished event
+        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
+            if (hasFinished) gameFinished()
+        })
+
         // Удаляем т.к. не нужно после объявления Observer в onCreateView
 //        updateScoreText()
 //        updateWordText()
@@ -191,10 +197,12 @@ class GameFragment : Fragment() {
         // ViewModel
 //       val action = GameFragmentDirections.actionGameToScore(viewModel.score)
 
-        // LiveData Task: Add LiveData to the GameViewModel
+//Step 1: Use LiveData to detect a game-finished event
+//        // LiveData Task: Add LiveData to the GameViewModel
         val action = GameFragmentDirections.actionGameToScore(viewModel.score.value?:0)
-//       action.score = viewModel.score
         findNavController().navigate(action)
-//        NavHostFragment.findNavController(this).navigate(action)
+
+// Step 2: Reset the game-finished event
+        viewModel.onGameFinishComplete()
     }
 }
