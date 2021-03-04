@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -65,9 +66,19 @@ class GameFragment : Fragment() {
         // initialization of the ViewModel
         Log.i("GameFragment", "Called ViewModelProvider.get")
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
-
-        updateScoreText()
-        updateWordText()
+        // Live Data
+        /** Setting up LiveData observation relationship **/
+        // Attach observers to the LiveData objects
+        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+            binding.scoreText.text = newScore.toString()
+        })
+        /** Setting up LiveData observation relationship **/
+        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+            binding.wordText.text = newWord
+        })
+        // Удаляем т.к. не нужно после объявления Observer в onCreateView
+//        updateScoreText()
+//        updateWordText()
         return binding.root
     }
 
@@ -116,13 +127,17 @@ class GameFragment : Fragment() {
 
     private fun onSkip() {
         viewModel.onSkip()
-        updateWordText()
-        updateScoreText()
+        // Удаляем т.к. не нужно после объявления Observer в onCreateView
+        //         Attach observers to the LiveData objects
+//        updateWordText()
+//        updateScoreText()
     }
     private fun onCorrect() {
         viewModel.onCorrect()
-        updateScoreText()
-        updateWordText()
+        // Удаляем т.к. не нужно после объявления Observer в onCreateView
+        // Attach observers to the LiveData objects Encapsulate the LiveData Add a backing property
+//        updateScoreText()
+//        updateWordText()
     }
 
     /**
@@ -148,11 +163,20 @@ class GameFragment : Fragment() {
 //        binding.scoreText.text = score.toString()
 //    }
     private fun updateWordText() {
-        binding.wordText.text = viewModel.word
+        // ViewModel
+//        binding.wordText.text = viewModel.word
+
+        // LiveData Task: Add LiveData to the GameViewModel
+        binding.wordText.text = viewModel.word.value
     }
 
     private fun updateScoreText() {
-        binding.scoreText.text = viewModel.score.toString()
+        // ViewModel
+//        binding.scoreText.text = viewModel.score.toString()
+
+        // LiveData Task: Add LiveData to the GameViewModel
+        binding.scoreText.text = viewModel.score.value.toString()
+
     }
 
     private fun onEndGame() {
@@ -164,7 +188,11 @@ class GameFragment : Fragment() {
      */
     private fun gameFinished() {
         Toast.makeText(activity, "Game has just finished", Toast.LENGTH_SHORT).show()
-       val action = GameFragmentDirections.actionGameToScore(viewModel.score)
+        // ViewModel
+//       val action = GameFragmentDirections.actionGameToScore(viewModel.score)
+
+        // LiveData Task: Add LiveData to the GameViewModel
+        val action = GameFragmentDirections.actionGameToScore(viewModel.score.value?:0)
 //       action.score = viewModel.score
         findNavController().navigate(action)
 //        NavHostFragment.findNavController(this).navigate(action)
