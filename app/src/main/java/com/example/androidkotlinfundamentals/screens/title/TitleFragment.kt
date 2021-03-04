@@ -31,11 +31,14 @@ import com.example.androidkotlinfundamentals.databinding.TitleFragmentBinding
  */
 class TitleFragment : Fragment() {
 
+//    private lateinit var binding: FragmentTitleBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
-        val binding: TitleFragmentBinding = DataBindingUtil.inflate(
-                inflater, R.layout.title_fragment, container, false)
+//        val binding: TitleFragmentBinding = DataBindingUtil.inflate(
+//                inflater, R.layout.title_fragment, container, false)
+       val binding = TitleFragmentBinding.inflate(inflater, container, false)
 
         binding.playGameButton.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToGame())

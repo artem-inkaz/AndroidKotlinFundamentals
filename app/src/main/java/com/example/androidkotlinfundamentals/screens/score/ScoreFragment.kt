@@ -22,6 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.databinding.ScoreFragmentBinding
 
@@ -29,6 +30,9 @@ import com.example.androidkotlinfundamentals.databinding.ScoreFragmentBinding
  * Fragment where the final score is shown, after the game is over
  */
 class ScoreFragment : Fragment() {
+
+    private lateinit var viewModel: ScoreViewModel
+    private lateinit var viewModelFactory: ScoreViewModelFactory
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -43,6 +47,12 @@ class ScoreFragment : Fragment() {
                 container,
                 false
         )
+        // 1
+        viewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(requireArguments()).score)
+        // 2
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ScoreViewModel::class.java)
+        // 3
+        binding.scoreText.text = viewModel.score.toString()
 
         return binding.root
     }
