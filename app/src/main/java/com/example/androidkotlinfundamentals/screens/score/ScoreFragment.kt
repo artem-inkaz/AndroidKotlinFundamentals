@@ -22,6 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.databinding.ScoreFragmentBinding
@@ -51,8 +52,15 @@ class ScoreFragment : Fragment() {
         viewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(requireArguments()).score)
         // 2
         viewModel = ViewModelProvider(this, viewModelFactory).get(ScoreViewModel::class.java)
-        // 3
-        binding.scoreText.text = viewModel.score.toString()
+        // 3 Удалили из-за  8. Task: Add LiveData to the ScoreViewModel!
+//        binding.scoreText.text = viewModel.score.toString()
+
+//        8. Task: Add LiveData to the ScoreViewModel
+        // Add observer for score
+        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+            binding.scoreText.text = newScore.toString()
+        })
+
 
         return binding.root
     }
