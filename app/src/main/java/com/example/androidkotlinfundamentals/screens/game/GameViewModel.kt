@@ -88,14 +88,45 @@ class GameViewModel: ViewModel() {
         // в блоке данные сбрасываются когда создаем ViewModel а не фрагмент!
         resetList()
         nextWord()
+    }
 
+    override fun onCleared() {
+        super.onCleared()
+        Log.i("GameViewModel", "GameViewModel destroyed!")
+    }
+
+    /** Methods for buttons presses **/
+
+    fun onSkip() {
+        // ViewModel
+//        score--
+
+        // LiveData Task: Add LiveData to the GameViewModel
+//        score.value = (score.value)?.minus(1)
+
+        // LiveData observers Encapsulate the LiveData Add a backing property
+        _score.value = (score.value)?.minus(1)
+        nextWord()
+    }
+
+    fun onCorrect() {
+//         // ViewModel
+//        score++
+
+        // LiveData Task: Add LiveData to the GameViewModel
+//         score.value = (score.value)?.plus(1)
+
+        // LiveData observers Encapsulate the LiveData Add a backing property
+        _score.value = (score.value)?.plus(1)
+        nextWord()
     }
 
     /**
      * Moves to the next word in the list
      */
     private fun nextWord() {
-        if (!wordList.isEmpty()) {
+        if (!wordList.isEmpty())
+        {
             // Step 1: Use LiveData to detect a game-finished event
             onGameFinish()
 
@@ -112,45 +143,19 @@ class GameViewModel: ViewModel() {
         }
     }
 
-    /** Methods for buttons presses **/
-
-     fun onSkip() {
-        // ViewModel
-//        score--
-
-        // LiveData Task: Add LiveData to the GameViewModel
-//        score.value = (score.value)?.minus(1)
-
-        // LiveData observers Encapsulate the LiveData Add a backing property
-        _score.value = (score.value)?.minus(1)
-        nextWord()
-    }
-
-     fun onCorrect() {
-//         // ViewModel
-//        score++
-
-         // LiveData Task: Add LiveData to the GameViewModel
-//         score.value = (score.value)?.plus(1)
-
-         // LiveData observers Encapsulate the LiveData Add a backing property
-         _score.value = (score.value)?.plus(1)
-        nextWord()
-    }
-// Step 2: Reset the game-finished event
-    fun onGameFinishComplete() {
-        _eventGameFinish.value = false
-    }
-
     // Step 1: Use LiveData to detect a game-finished event
     /** Method for the game completed event **/
     fun onGameFinish() {
-        _eventGameFinish.value = true
+//        _eventGameFinish.value = true
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.i("GameViewModel", "GameViewModel destroyed!")
+// Step 2: Reset the game-finished event
+    fun onGameFinishComplete() {
+//        _eventGameFinish.value = false
     }
+
+
+
+
 
 }

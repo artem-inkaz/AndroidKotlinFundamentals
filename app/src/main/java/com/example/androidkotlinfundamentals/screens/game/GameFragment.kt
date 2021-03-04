@@ -60,31 +60,34 @@ class GameFragment : Fragment() {
         )
 //        resetList() // перенесли в GameViewModel
 //        nextWord() // перенесли в GameViewModel
-        binding.correctButton.setOnClickListener { onCorrect() }
-        binding.skipButton.setOnClickListener { onSkip() }
-        binding.endGameButton.setOnClickListener { onEndGame() }
+
         // initialization of the ViewModel
         Log.i("GameFragment", "Called ViewModelProvider.get")
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
+
         // Live Data
+         /** Setting up LiveData observation relationship **/
+        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+            binding.wordText.text = newWord
+        })
         /** Setting up LiveData observation relationship **/
         // Attach observers to the LiveData objects
         viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
-        /** Setting up LiveData observation relationship **/
-        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
-            binding.wordText.text = newWord
-        })
+
         // Step 1: Use LiveData to detect a game-finished event
 //         Observer for the Game finished event
-        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
-            if (hasFinished) gameFinished()
-        })
+//        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
+//            if (hasFinished) gameFinished()
+//        })
 
         // Удаляем т.к. не нужно после объявления Observer в onCreateView
 //        updateScoreText()
 //        updateWordText()
+        binding.correctButton.setOnClickListener { onCorrect() }
+        binding.skipButton.setOnClickListener { onSkip() }
+        binding.endGameButton.setOnClickListener { onEndGame() }
         return binding.root
     }
 
