@@ -3,12 +3,19 @@ package com.example.androidkotlinfundamentals
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import timber.log.Timber
+
 class MainActivity : AppCompatActivity() {
+
+    // Contains all the views
+    private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+//        setContentView(R.layout.main_activity)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     }
 
     override fun onStart() {
