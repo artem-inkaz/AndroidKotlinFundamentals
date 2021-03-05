@@ -17,10 +17,7 @@
 package com.example.androidkotlinfundamentals.sleeptracker
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.androidkotlinfundamentals.database.SleepDatabaseDao
 import com.example.androidkotlinfundamentals.database.SleepNight
 import com.example.androidkotlinfundamentals.formatNights
@@ -32,6 +29,13 @@ import kotlinx.coroutines.launch
 class SleepTrackerViewModel(
         val database: SleepDatabaseDao,
         application: Application) : AndroidViewModel(application) {
+
+        // create a LiveData that changes when you want the app to navigate to the SleepQualityFragment.
+        // Use encapsulation to only expose a gettable version of the LiveData to the ViewModel.
+        private val _navigateToSleepQuality = MutableLiveData<SleepNight>()
+        val navigateToSleepQuality: LiveData<SleepNight>
+        get() = _navigateToSleepQuality
+
 
       private val nights = database.getAllNights()
         // преобразования ночей в nightString. Используйте функцию formatNights () из Util.kt.
@@ -97,6 +101,13 @@ class SleepTrackerViewModel(
                 val oldNight = tonight.value ?: return@launch
                 oldNight.endTimeMilli = System.currentTimeMillis()
                 update(oldNight)
+             // В обработчике щелчка для кнопки «Стоп» onStopTracking () активируйте переход
+                // к SleepQualityFragment. Установите переменную _navigateToSleepQuality
+                // в конце функции как последнюю вещь внутри блока launch {}.
+                // Обратите внимание, что эта переменная установлена на ночь.
+                // Когда эта переменная имеет значение, приложение переходит к SleepQualityFragment,
+                // проходя по ночам.
+                _navigateToSleepQuality.value = oldNight
             }
         }
     // Implement update() using the same pattern as you used to implement insert().
@@ -114,6 +125,10 @@ class SleepTrackerViewModel(
 
     suspend fun clear(){
         database.clear()
+    }
+    // doneNavigating() function that resets the variable that triggers navigation.
+    fun doneNavigating(){
+        _navigateToSleepQuality.value = null
     }
 
 }

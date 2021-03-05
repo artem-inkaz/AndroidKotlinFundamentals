@@ -22,7 +22,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.database.SleepDatabase
 import com.example.androidkotlinfundamentals.databinding.FragmentSleepTrackerBinding
@@ -62,6 +64,23 @@ class SleepTrackerFragment : Fragment() {
         binding.sleepTrackerViewModel = sleepTrackerViewModel
         //Установите текущее действие как владельца жизненного цикла привязки.
         binding.setLifecycleOwner(this)
+        // SleepTrackerFragment должен наблюдать за _navigateToSleepQuality,
+        // чтобы приложение знало, когда переходить. В SleepTrackerFragment в onCreateView ()
+        // добавьте наблюдателя для navigateToSleepQuality ().
+        // Обратите внимание, что импорт для этого неоднозначен,
+        // и вам нужно импортировать androidx.lifecycle.Observer.
+        sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer {
+            // Внутри блока наблюдателя перейдите и передайте идентификатор текущей ночи,
+            // а затем вызовите doneNavigating (). Если ваш импорт неоднозначен,
+            // импортируйте androidx.navigation.fragment.findNavController.
+                night ->
+            night?.let {
+                this.findNavController().navigate(
+                    SleepTrackerFragmentDirections
+                        .actionSleepTrackerFragmentToSleepQualityFragment(night.nightId))
+                sleepTrackerViewModel.doneNavigating()
+            }
+        })
         return binding.root
     }
 }
