@@ -65,5 +65,21 @@ class SleepTrackerViewModel(
                 }
                 return night
         }
+        // implement onStartTracking(), the click handler for the Start button.
+        // You need to create a new SleepNight, insert it into the database,
+        // and assign it to tonight. The structure of onStartTracking()
+        // is going to be similar to initializeTonight()
+        fun onStartTracking(){
+                viewModelScope.launch {
+                        // создайте новый SleepNight, который фиксирует текущее время как время начала.
+                        val newNight = SleepNight()
+                        insert(newNight)
+                        tonight.value = getTonightFromDatabase()
+                }
+        }
+
+        private suspend fun insert(night: SleepNight){
+                database.insert(night)
+        }
 }
 
