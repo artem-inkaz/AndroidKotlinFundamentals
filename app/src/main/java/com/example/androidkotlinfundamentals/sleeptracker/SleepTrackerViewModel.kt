@@ -19,9 +19,11 @@ package com.example.androidkotlinfundamentals.sleeptracker
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.example.androidkotlinfundamentals.database.SleepDatabaseDao
 import com.example.androidkotlinfundamentals.database.SleepNight
+import com.example.androidkotlinfundamentals.formatNights
 import kotlinx.coroutines.launch
 
 /**
@@ -30,6 +32,12 @@ import kotlinx.coroutines.launch
 class SleepTrackerViewModel(
         val database: SleepDatabaseDao,
         application: Application) : AndroidViewModel(application) {
+
+      private val nights = database.getAllNights()
+        // преобразования ночей в nightString. Используйте функцию formatNights () из Util.kt.
+    val nightsString = Transformations.map(nights){nights ->
+            formatNights(nights,application.resources)
+        }
         // Определите переменную с именем tonight, которая будет содержать текущую ночь.
         // Сделайте переменную MutableLiveData, потому что вам нужно иметь возможность
         // наблюдать за данными и изменять их.
