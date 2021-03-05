@@ -58,7 +58,10 @@ class SleepTrackerFragment : Fragment() {
         val sleepTrackerViewModel =
             ViewModelProvider(
                 this,viewModelFactory).get(SleepTrackerViewModel::class.java)
-
+        // Назначьте переменную привязки sleepTrackerViewModel для sleepTrackerViewModel.
+        binding.sleepTrackerViewModel = sleepTrackerViewModel
+        //Установите текущее действие как владельца жизненного цикла привязки.
+        binding.setLifecycleOwner(this)
         return binding.root
     }
 }
