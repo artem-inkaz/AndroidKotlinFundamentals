@@ -105,5 +105,16 @@ class SleepTrackerViewModel(
         database.update(night)
     }
 
+    fun onClear(){
+        viewModelScope.launch {
+            clear()
+            tonight.value = null
+        }
+    }
+
+    suspend fun clear(){
+        database.clear()
+    }
+
 }
 
