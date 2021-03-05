@@ -71,7 +71,6 @@ class GameFragment : Fragment() {
         return binding.root
     }
 
-
     /**
      * Called when the game is finished
      */

@@ -37,13 +37,21 @@ class GameViewModel: ViewModel() {
         DateUtils.formatElapsedTime(time)
     }
 
-
-
     // LiveData observers
     // The current word Add a backing property to score and word Encapsulate the LiveData
     private val _word = MutableLiveData<String>()
     val word: LiveData<String>
         get() = _word
+
+    // The Hint for the current word
+    val wordHint = " WordHint"
+//    val wordHint = Transformations.map(word) { word ->
+//        val randomPosition = (1..word.length).random()
+//        "Current word has " + word.length + " letters" +
+//                "\nThe letter at position " + randomPosition + " is " +
+//                word.get(randomPosition - 1).toUpperCase()
+//    }
+
 
     // LiveData observers
     // The current score Add a backing property
