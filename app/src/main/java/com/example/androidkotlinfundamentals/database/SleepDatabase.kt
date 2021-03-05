@@ -15,3 +15,45 @@
  */
 
 package com.example.androidkotlinfundamentals.database
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+
+@Database(entities = [SleepNight::class], version = 1, exportSchema = false)
+abstract class SleepDatabase : RoomDatabase(){
+
+    // База данных должна знать о DAO.
+    // Внутри тела класса объявите абстрактное значение,
+    // которое возвращает SleepDatabaseDao.
+    // У вас может быть несколько DAO.
+    abstract val sleepDatabaseDao: SleepDatabaseDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: SleepDatabase? = null
+        //Результаты перевода
+        //определите метод getInstance () с параметром Context,
+        // который понадобится построителю базы данных. Верните тип SleepDatabase.
+        // Вы увидите ошибку, потому что getInstance () еще ничего не возвращает.
+        fun getInstance(context: Context):SleepDatabase{
+            synchronized(this){
+                var instance = INSTANCE
+                //Над оператором return добавьте оператор if,
+                // чтобы проверить, является ли экземпляр нулевым,
+                // то есть базы данных еще нет.
+                if (instance == null){
+                    instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        SleepDatabase::class.java,
+                        "sleep_history_database")
+                        .fallbackToDestructiveMigration()
+                        .build()
+                    INSTANCE = instance
+                }
+                return instance
+            }
+        }
+    }
+}
