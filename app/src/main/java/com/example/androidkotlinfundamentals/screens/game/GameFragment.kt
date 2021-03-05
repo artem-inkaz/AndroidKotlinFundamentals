@@ -72,6 +72,9 @@ class GameFragment : Fragment() {
 //        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
 //            binding.wordText.text = newWord
 //        })
+
+        // удаляем после того как добавили
+
         /** Setting up LiveData observation relationship **/
         // Attach observers to the LiveData objects
         viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
