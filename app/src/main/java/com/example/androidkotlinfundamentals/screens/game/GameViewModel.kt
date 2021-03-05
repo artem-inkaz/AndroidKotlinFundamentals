@@ -1,19 +1,43 @@
 package com.example.androidkotlinfundamentals.screens.game
 
 import android.os.CountDownTimer
+import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 class GameViewModel: ViewModel() {
+
+    private val timer: CountDownTimer
+
+    // Add a timer
+    companion object {
+
+        // Time when the game is over
+        private const val DONE = 0L
+
+        // Countdown time interval
+        private const val ONE_SECOND = 1000L
+
+        // Total time for the game
+        private const val COUNTDOWN_TIME = 60000L
+
+    }
 
     // Countdown time
     private val _currentTime = MutableLiveData<Long>()
     val currentTime: LiveData<Long>
         get() = _currentTime
 
-    private val timer: CountDownTimer
+    // The String version of the current time
+    // added android:text="@{gameViewModel.currentTimeString}" in game_fragment to timer_text
+    val currentTimeString = Transformations.map(currentTime) { time ->
+        DateUtils.formatElapsedTime(time)
+    }
+
+
 
     // LiveData observers
     // The current word Add a backing property to score and word Encapsulate the LiveData
@@ -124,7 +148,7 @@ class GameViewModel: ViewModel() {
         if (wordList.isEmpty())
         {
             // Step 1: Use LiveData to detect a game-finished event
-                // перенсли в  override fun onFinish() {
+                // перенсли в  override fun onFinish() {}
 //            onGameFinish()
             resetList()
 
@@ -145,19 +169,7 @@ class GameViewModel: ViewModel() {
        _eventGameFinish.value = false
     }
 
-// Add a timer
-    companion object {
 
-        // Time when the game is over
-        private const val DONE = 0L
-
-        // Countdown time interval
-        private const val ONE_SECOND = 1000L
-
-        // Total time for the game
-        private const val COUNTDOWN_TIME = 60000L
-
-    }
 
 
 }
