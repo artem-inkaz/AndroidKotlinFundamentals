@@ -65,16 +65,30 @@ class GameFragment : Fragment() {
         Log.i("GameFragment", "Called ViewModelProvider.get")
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
-        // Live Data
+        // удаляем Observer т.к. добавили word LiveData to the game_fragment.xml file added android:text="@{gameViewModel.word}"
+        // Step 1: Add word LiveData to the game_fragment.xml file added android:text="@{gameViewModel.word}"
+////         Live Data
          /** Setting up LiveData observation relationship **/
-        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
-            binding.wordText.text = newWord
-        })
+//        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+//            binding.wordText.text = newWord
+//        })
         /** Setting up LiveData observation relationship **/
         // Attach observers to the LiveData objects
         viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
+
+        // Task: Add ViewModel data binding
+        // далее вносим изменения в game_fragment.xml android:onClick="@{() -> gameViewModel.onCorrect()}"
+        // Set the viewmodel for databinding - this allows the bound layout access
+        // to all the data in the ViewModel
+        binding.gameViewModel = viewModel
+
+        // Step 1: Add word LiveData to the game_fragment.xml file added android:text="@{gameViewModel.word}"
+        // Specify the fragment view as the lifecycle owner of the binding.
+        // This is used so that the binding can observe LiveData updates
+        binding.lifecycleOwner = viewLifecycleOwner
+
 
         // Step 1: Use LiveData to detect a game-finished event
 //         Observer for the Game finished event
@@ -85,9 +99,14 @@ class GameFragment : Fragment() {
         // Удаляем т.к. не нужно после объявления Observer в onCreateView
 //        updateScoreText()
 //        updateWordText()
-        binding.correctButton.setOnClickListener { onCorrect() }
-        binding.skipButton.setOnClickListener { onSkip() }
-        binding.endGameButton.setOnClickListener { onEndGame() }
+
+        // удаляем данные строчки т.к. добавили в game_fragment.xml
+        // android:onClick="@{() -> gameViewModel.onGameFinish()}"
+        // android:onClick="@{() -> gameViewModel.onSkip()}"
+        // android:onClick="@{() -> gameViewModel.onCorrect()}"
+//        binding.correctButton.setOnClickListener { onCorrect() }
+//        binding.skipButton.setOnClickListener { onSkip() }
+//        binding.endGameButton.setOnClickListener { onEndGame() }
         return binding.root
     }
 
@@ -133,7 +152,8 @@ class GameFragment : Fragment() {
 //        score++
 //        nextWord()
 //    }
-
+    // функции не используются после добавления
+    // / android:onClick="@{() -> gameViewModel.onSkip()}" в game_fragment.xml
     private fun onSkip() {
         viewModel.onSkip()
         // Удаляем т.к. не нужно после объявления Observer в onCreateView
@@ -171,6 +191,8 @@ class GameFragment : Fragment() {
 //    private fun updateScoreText() {
 //        binding.scoreText.text = score.toString()
 //    }
+
+    // не используем т.к. не нужно после объявления Observer в onCreateView
     private fun updateWordText() {
         // ViewModel
 //        binding.wordText.text = viewModel.word
@@ -178,7 +200,7 @@ class GameFragment : Fragment() {
         // LiveData Task: Add LiveData to the GameViewModel
         binding.wordText.text = viewModel.word.value
     }
-
+    // не используем т.к. не нужно после объявления Observer в onCreateView
     private fun updateScoreText() {
         // ViewModel
 //        binding.scoreText.text = viewModel.score.toString()
@@ -188,6 +210,8 @@ class GameFragment : Fragment() {
 
     }
 
+    // функции не используются после добавления
+    // / android:onClick="@{() -> gameViewModel.onGameFinish()}" в game_fragment.xml
     private fun onEndGame() {
         gameFinished()
     }

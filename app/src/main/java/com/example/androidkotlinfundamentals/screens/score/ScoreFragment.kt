@@ -57,11 +57,13 @@ class ScoreFragment : Fragment() {
         // 3 Удалили из-за  8. Task: Add LiveData to the ScoreViewModel!
 //        binding.scoreText.text = viewModel.score.toString()
 
-//        8. Task: Add LiveData to the ScoreViewModel
-        // Add observer for score
-        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
+        // удаляем Observer т.к. добавили word LiveData to the score_fragment.xml file added android:text="@{String.valueOf(scoreViewModel.score)}"
+        // Step 1: Add word LiveData to the score_fragment.xml file added android:text="@{String.valueOf(scoreViewModel.score)}"
+////        8. Task: Add LiveData to the ScoreViewModel
+//        // Add observer for score
+//        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+//            binding.scoreText.text = newScore.toString()
+//        })
         // 9. Task: Add the Play Again button
         // Navigates back to game when button is pressed
         viewModel.eventPlayAgain.observe(viewLifecycleOwner, Observer { playAgain ->
@@ -70,8 +72,16 @@ class ScoreFragment : Fragment() {
                 viewModel.onPlayAgainComplete()
             }
         })
+        // Step 3: Add data binding for the ScoreViewModel
+        // добавили в score_fragment.xml android:onClick="@{() -> scoreViewModel.onPlayAgain()}"
+        binding.scoreViewModel = viewModel
+        // удаляем т.к. добавили код выше binding.scoreViewModel = viewModel
+//        binding.playAgainButton.setOnClickListener {  viewModel.onPlayAgain()  }
 
-        binding.playAgainButton.setOnClickListener {  viewModel.onPlayAgain()  }
+        // Specify the fragment view as the lifecycle owner of the binding.
+        // This is used so that the binding can observe LiveData updates
+        binding.lifecycleOwner = viewLifecycleOwner
+
 
         return binding.root
     }
