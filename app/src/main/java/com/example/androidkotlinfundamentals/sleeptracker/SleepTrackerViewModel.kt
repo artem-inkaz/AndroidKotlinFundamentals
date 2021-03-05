@@ -89,5 +89,21 @@ class SleepTrackerViewModel(
         private suspend fun insert(night: SleepNight){
                 database.insert(night)
         }
+
+        // If the end time hasn't been set yet, set the endTimeMilli to the current
+        // system time and call update() with the night data.
+        fun onStopTracking(){
+            viewModelScope.launch {
+                val oldNight = tonight.value ?: return@launch
+                oldNight.endTimeMilli = System.currentTimeMillis()
+                update(oldNight)
+            }
+        }
+    // Implement update() using the same pattern as you used to implement insert().
+    // and android:onClick="@{() -> sleepTrackerViewModel.onStopTracking()}"
+    private suspend fun update(night: SleepNight){
+        database.update(night)
+    }
+
 }
 
