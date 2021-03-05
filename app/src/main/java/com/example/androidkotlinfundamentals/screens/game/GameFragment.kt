@@ -74,12 +74,12 @@ class GameFragment : Fragment() {
 //        })
 
         // удаляем после того как добавили
-
+        // android:text="@{@string/score_format(gameViewModel.score)}"
         /** Setting up LiveData observation relationship **/
         // Attach observers to the LiveData objects
-        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
+//        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+//            binding.scoreText.text = newScore.toString()
+//        })
 
         // Task: Add ViewModel data binding
         // далее вносим изменения в game_fragment.xml android:onClick="@{() -> gameViewModel.onCorrect()}"
@@ -95,9 +95,9 @@ class GameFragment : Fragment() {
 
         // Step 1: Use LiveData to detect a game-finished event
 //         Observer for the Game finished event
-//        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
-//            if (hasFinished) gameFinished()
-//        })
+        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
+            if (hasFinished) gameFinished()
+        })
 
         // Удаляем т.к. не нужно после объявления Observer в onCreateView
 //        updateScoreText()

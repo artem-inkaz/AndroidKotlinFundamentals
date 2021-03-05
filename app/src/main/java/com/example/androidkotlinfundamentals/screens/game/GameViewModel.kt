@@ -125,7 +125,7 @@ class GameViewModel: ViewModel() {
      * Moves to the next word in the list
      */
     private fun nextWord() {
-        if (!wordList.isEmpty())
+        if (wordList.isEmpty())
         {
             // Step 1: Use LiveData to detect a game-finished event
             onGameFinish()
@@ -146,12 +146,12 @@ class GameViewModel: ViewModel() {
     // Step 1: Use LiveData to detect a game-finished event
     /** Method for the game completed event **/
     fun onGameFinish() {
-//       _eventGameFinish.value = true
+       _eventGameFinish.value = true
     }
 
 // Step 2: Reset the game-finished event
     fun onGameFinishComplete() {
-//        _eventGameFinish.value = false
+       _eventGameFinish.value = false
     }
 
 
