@@ -44,14 +44,13 @@ class GameViewModel: ViewModel() {
         get() = _word
 
     // The Hint for the current word
-    val wordHint = " WordHint"
-//    val wordHint = Transformations.map(word) { word ->
+//    val wordHint = " WordHint"
+    val wordHint = Transformations.map(word) { word ->
 //        val randomPosition = (1..word.length).random()
-//        "Current word has " + word.length + " letters" +
-//                "\nThe letter at position " + randomPosition + " is " +
-//                word.get(randomPosition - 1).toUpperCase()
-//    }
-
+        "Current word has " + word.length + " letters" +
+                "\nThe letter at position " + (1..word.length).random() + " is " +
+                word.get((1..word.length).random() - 1).toUpperCase()
+    }
 
     // LiveData observers
     // The current score Add a backing property
