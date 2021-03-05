@@ -2,53 +2,42 @@ package com.example.androidkotlinfundamentals
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
-import com.example.androidkotlinfundamentals.databinding.ActivityMainBinding
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var drawerLayout: DrawerLayout
+    // Contains all the views
+//   private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        @Suppress("UNUSED_VARIABLE")
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        drawerLayout = binding.drawerLayout
-        val navController = this.findNavController(R.id.myNavHostFragment)
-        NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
-        //
-//       setSupportActionBar(findViewById(R.id.my_toolbar))
-        // боковое меню
-        NavigationUI.setupWithNavController(binding.navView, navController)
+        setContentView(R.layout.main_activity)
+//     val binding = DataBindingUtil.setContentView(this, R.layout.main_activity)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = this.findNavController(R.id.myNavHostFragment)
-//        return super.onSupportNavigateUp()
-//        return navController.navigateUp()
-        return NavigationUI.navigateUp(navController, drawerLayout)
+    override fun onStart() {
+        super.onStart()
+ //       Log.i("MainActivity","onStart Called")
+        Timber.i("onCreate called")
     }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_settings -> {
-            // User chose the "Settings" item, show the app settings UI...
-            true
-        }
-
-        R.id.action_favorite -> {
-            // User chose the "Favorite" action, mark the current item
-            // as a favorite...
-            true
-        }
-
-        else -> {
-            // If we got here, the user's action was not recognized.
-            // Invoke the superclass to handle it.
-            super.onOptionsItemSelected(item)
-        }
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume Called")
+    }
+    override fun onPause() {
+        super.onPause()
+        Timber.i("onPause Called")
+    }
+    override fun onStop() {
+        super.onStop()
+        Timber.i("onStop Called")
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDestroy Called")
+    }
+    override fun onRestart() {
+        super.onRestart()
+        Timber.i("onRestart Called")
     }
 }
