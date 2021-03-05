@@ -1,28 +1,25 @@
 package com.example.androidkotlinfundamentals.screens.game
 
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel: ViewModel() {
-// данные для ViewModel первый урок
-//    // The current word
-//    var word = ""
-//    // The current score
-//    var score = 0
 
-    // The current word 2 LiveData Task: Add LiveData to the GameViewModel
-//    val word = MutableLiveData<String>()
+    // Countdown time
+    private val _currentTime = MutableLiveData<Long>()
+    val currentTime: LiveData<Long>
+        get() = _currentTime
+
+    private val timer: CountDownTimer
 
     // LiveData observers
     // The current word Add a backing property to score and word Encapsulate the LiveData
     private val _word = MutableLiveData<String>()
     val word: LiveData<String>
         get() = _word
-
-    // The current score 2 LiveData Task: Add LiveData to the GameViewModel Encapsulate the LiveData
-//    val score = MutableLiveData<Int>()
 
     // LiveData observers
     // The current score Add a backing property
@@ -72,15 +69,8 @@ class GameViewModel: ViewModel() {
     }
 
     init {
-        // для LiveData 2 Task: Add LiveData to the GameViewModel
-//        word.value = ""
-
         // LiveData observers Encapsulate the LiveData Add a backing property
         _word.value = ""
-
-        // LiveData 2 Task: Add LiveData to the GameViewModel
-//        score.value = 0
-
         // LiveData observers Encapsulate the LiveData Add a backing property
         _score.value = 0
 
@@ -88,34 +78,40 @@ class GameViewModel: ViewModel() {
         // в блоке данные сбрасываются когда создаем ViewModel а не фрагмент!
         resetList()
         nextWord()
+
+        // Creates a timer which triggers the end of the game when it finishes
+        timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                _currentTime.value = millisUntilFinished/ONE_SECOND
+            }
+
+            override fun onFinish() {
+                _currentTime.value = DONE
+                onGameFinish()
+            }
+        }
+
+        timer.start()
+
     }
 
     override fun onCleared() {
         super.onCleared()
         Log.i("GameViewModel", "GameViewModel destroyed!")
+                // Cancel the timer чтобы избежать утечки памяти
+                timer.cancel()
     }
 
     /** Methods for buttons presses **/
 
     fun onSkip() {
-        // ViewModel
-//        score--
-
-        // LiveData Task: Add LiveData to the GameViewModel
-//        score.value = (score.value)?.minus(1)
-
         // LiveData observers Encapsulate the LiveData Add a backing property
         _score.value = (score.value)?.minus(1)
         nextWord()
     }
 
     fun onCorrect() {
-//         // ViewModel
-//        score++
-
-        // LiveData Task: Add LiveData to the GameViewModel
-//         score.value = (score.value)?.plus(1)
-
         // LiveData observers Encapsulate the LiveData Add a backing property
         _score.value = (score.value)?.plus(1)
         nextWord()
@@ -128,16 +124,11 @@ class GameViewModel: ViewModel() {
         if (wordList.isEmpty())
         {
             // Step 1: Use LiveData to detect a game-finished event
-            onGameFinish()
+                // перенсли в  override fun onFinish() {
+//            onGameFinish()
+            resetList()
 
         } else {
-            //Select and remove a word from the list
-                // ViewModel
-//            word = wordList.removeAt(0)
-
-            // LiveData Task: Add LiveData to the GameViewModel
-//            word.value = wordList.removeAt(0)
-
             // LiveData observers Encapsulate the LiveData Add a backing property
             _word.value = wordList.removeAt(0)
         }
@@ -154,8 +145,19 @@ class GameViewModel: ViewModel() {
        _eventGameFinish.value = false
     }
 
+// Add a timer
+    companion object {
 
+        // Time when the game is over
+        private const val DONE = 0L
 
+        // Countdown time interval
+        private const val ONE_SECOND = 1000L
+
+        // Total time for the game
+        private const val COUNTDOWN_TIME = 60000L
+
+    }
 
 
 }

@@ -58,181 +58,27 @@ class GameFragment : Fragment() {
                 container,
                 false
         )
-//        resetList() // перенесли в GameViewModel
-//        nextWord() // перенесли в GameViewModel
-
         // initialization of the ViewModel
         Log.i("GameFragment", "Called ViewModelProvider.get")
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
-        // удаляем Observer т.к. добавили word LiveData to the game_fragment.xml file added android:text="@{gameViewModel.word}"
-        // Step 1: Add word LiveData to the game_fragment.xml file added android:text="@{gameViewModel.word}"
-////         Live Data
-         /** Setting up LiveData observation relationship **/
-//        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
-//            binding.wordText.text = newWord
-//        })
-
-        // удаляем после того как добавили
-        // android:text="@{@string/score_format(gameViewModel.score)}"
-        /** Setting up LiveData observation relationship **/
-        // Attach observers to the LiveData objects
-//        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
-//            binding.scoreText.text = newScore.toString()
-//        })
-
-        // Task: Add ViewModel data binding
-        // далее вносим изменения в game_fragment.xml android:onClick="@{() -> gameViewModel.onCorrect()}"
-        // Set the viewmodel for databinding - this allows the bound layout access
-        // to all the data in the ViewModel
         binding.gameViewModel = viewModel
-
-        // Step 1: Add word LiveData to the game_fragment.xml file added android:text="@{gameViewModel.word}"
-        // Specify the fragment view as the lifecycle owner of the binding.
-        // This is used so that the binding can observe LiveData updates
         binding.lifecycleOwner = viewLifecycleOwner
-
-
-        // Step 1: Use LiveData to detect a game-finished event
-//         Observer for the Game finished event
         viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
             if (hasFinished) gameFinished()
         })
 
-        // Удаляем т.к. не нужно после объявления Observer в onCreateView
-//        updateScoreText()
-//        updateWordText()
-
-        // удаляем данные строчки т.к. добавили в game_fragment.xml
-        // android:onClick="@{() -> gameViewModel.onGameFinish()}"
-        // android:onClick="@{() -> gameViewModel.onSkip()}"
-        // android:onClick="@{() -> gameViewModel.onCorrect()}"
-//        binding.correctButton.setOnClickListener { onCorrect() }
-//        binding.skipButton.setOnClickListener { onSkip() }
-//        binding.endGameButton.setOnClickListener { onEndGame() }
         return binding.root
     }
 
-    /**
-     * Resets the list of words and randomizes the order
-     */
-// перенесли в GameViewModel
-//    private fun resetList() {
-//        wordList = mutableListOf(
-//                "queen",
-//                "hospital",
-//                "basketball",
-//                "cat",
-//                "change",
-//                "snail",
-//                "soup",
-//                "calendar",
-//                "sad",
-//                "desk",
-//                "guitar",
-//                "home",
-//                "railway",
-//                "zebra",
-//                "jelly",
-//                "car",
-//                "crow",
-//                "trade",
-//                "bag",
-//                "roll",
-//                "bubble"
-//        )
-//        wordList.shuffle()
-//    }
-
-    /** Methods for buttons presses **/
-// первоначальный код перенесли в GameViewModel
-//    private fun onSkip() {
-//        score--
-//        nextWord()
-//    }
-//
-//    private fun onCorrect() {
-//        score++
-//        nextWord()
-//    }
-    // функции не используются после добавления
-    // / android:onClick="@{() -> gameViewModel.onSkip()}" в game_fragment.xml
-    private fun onSkip() {
-        viewModel.onSkip()
-        // Удаляем т.к. не нужно после объявления Observer в onCreateView
-        //         Attach observers to the LiveData objects
-//        updateWordText()
-//        updateScoreText()
-    }
-    private fun onCorrect() {
-        viewModel.onCorrect()
-        // Удаляем т.к. не нужно после объявления Observer в onCreateView
-        // Attach observers to the LiveData objects Encapsulate the LiveData Add a backing property
-//        updateScoreText()
-//        updateWordText()
-    }
-
-    /**
-     * Moves to the next word in the list
-     */
-// первоначальный код перенесли в GameViewModel
-//    private fun nextWord() {
-//        if (!wordList.isEmpty()) {
-//            //Select and remove a word from the list
-//            word = wordList.removeAt(0)
-//        }
-//        updateWordText()
-//        updateScoreText()
-//    }
-
-    /** Methods for updating the UI **/
-// первоначальный код до перенесения в GameViewModel
-//    private fun updateWordText() {
-//        binding.wordText.text = word
-//    }
-//
-//    private fun updateScoreText() {
-//        binding.scoreText.text = score.toString()
-//    }
-
-    // не используем т.к. не нужно после объявления Observer в onCreateView
-    private fun updateWordText() {
-        // ViewModel
-//        binding.wordText.text = viewModel.word
-
-        // LiveData Task: Add LiveData to the GameViewModel
-        binding.wordText.text = viewModel.word.value
-    }
-    // не используем т.к. не нужно после объявления Observer в onCreateView
-    private fun updateScoreText() {
-        // ViewModel
-//        binding.scoreText.text = viewModel.score.toString()
-
-        // LiveData Task: Add LiveData to the GameViewModel
-        binding.scoreText.text = viewModel.score.value.toString()
-
-    }
-
-    // функции не используются после добавления
-    // / android:onClick="@{() -> gameViewModel.onGameFinish()}" в game_fragment.xml
-    private fun onEndGame() {
-        gameFinished()
-    }
 
     /**
      * Called when the game is finished
      */
     private fun gameFinished() {
         Toast.makeText(activity, "Game has just finished", Toast.LENGTH_SHORT).show()
-        // ViewModel
-//       val action = GameFragmentDirections.actionGameToScore(viewModel.score)
-
-//Step 1: Use LiveData to detect a game-finished event
-//        // LiveData Task: Add LiveData to the GameViewModel
         val action = GameFragmentDirections.actionGameToScore(viewModel.score.value?:0)
         findNavController().navigate(action)
-
-// Step 2: Reset the game-finished event
         viewModel.onGameFinishComplete()
     }
 }

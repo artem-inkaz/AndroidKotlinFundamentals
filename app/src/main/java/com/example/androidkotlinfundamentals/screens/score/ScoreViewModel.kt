@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ScoreViewModel(finalScore: Int): ViewModel() {
-    // The final score
-//    var score = finalScore
 // 8. Task: Add LiveData to the ScoreViewModel
     private val _score = MutableLiveData<Int>()
     val score: LiveData<Int>
