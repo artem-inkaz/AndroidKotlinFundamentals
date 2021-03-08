@@ -90,6 +90,27 @@ class SleepNightDiffCallBack : DiffUtil.ItemCallback<SleepNight>(){
     }
 }
 
+sealed class DataItem {
+    // When the adapter uses DiffUtil to determine whether and how an item has changed,
+    // the DiffItemCallback needs to know the id of each item. You will see an error,
+    // because SleepNightItem and Header need to override the abstract property id.
+    abstract val id: Long
+
+    // The first is a SleepNightItem, which is a wrapper around a SleepNight,
+    // so it takes a single value called sleepNight.
+    // To make it part of the sealed class, have it extend DataItem
+    data class SleepNightItem(val sleepNight: SleepNight): DataItem(){
+
+        override val id = sleepNight.nightId
+    }
+    // The second class is Header, to represent a header. Since a header has no actual data,
+    // you can declare it as an object. That means there will only ever be one instance of Header.
+    // Again, have it extend DataItem
+    object Header: DataItem(){
+        override val id = Long.MIN_VALUE
+    }
+}
+
 class SleepNightListener(val clickListener: (sleepId: Long) -> Unit){
     fun  onClick(night: SleepNight) = clickListener(night.nightId)
 }
