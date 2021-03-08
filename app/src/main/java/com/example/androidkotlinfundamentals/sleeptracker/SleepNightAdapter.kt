@@ -38,7 +38,7 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Slee
     // in the list.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 //        val item = data[position]
-        val item = getItem(position)
+//        val item = getItem(position)
 //        holder.bind(holder, item)
         holder.bind(getItem(position)!!,clickListener)
     }
@@ -50,8 +50,9 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Slee
 
         fun bind(item: SleepNight, clickListener: SleepNightListener) {
             binding.sleep = item
-            binding.executePendingBindings()
             binding.clickListener = clickListener
+            binding.executePendingBindings()
+
     }
 
     companion object {
@@ -87,7 +88,6 @@ class SleepNightDiffCallBack : DiffUtil.ItemCallback<SleepNight>(){
         // this code tells DiffUtil that the item has been updated.
         return oldItem == newItem
     }
-
 }
 
 class SleepNightListener(val clickListener: (sleepId: Long) -> Unit){

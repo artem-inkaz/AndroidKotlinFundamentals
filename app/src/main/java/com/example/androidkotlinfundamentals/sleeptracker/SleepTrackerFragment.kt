@@ -116,7 +116,7 @@ class SleepTrackerFragment : Fragment() {
         })
         // create an adapter
         val adapter = SleepNightAdapter(SleepNightListener { nightId ->
-            Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
+//            Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
             // Add the following code below the toast to call a click handler, onSleepNightClicked(),
             // in the sleepTrackerViewModel when an item is tapped. Pass in the nightId, so the view
             // model knows which sleep night to get.

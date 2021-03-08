@@ -46,7 +46,7 @@ class SleepDetailFragment : Fragment() {
 
         // Get a reference to the binding object and inflate the fragment views.
         val binding: FragmentSleepDetailBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_sleep_detail, container, false)
+            inflater, R.layout.fragment_sleep_detail, container, false)
 
         val application = requireNotNull(this.activity).application
         val arguments = arguments?.let { SleepDetailFragmentArgs.fromBundle(it) }
@@ -54,7 +54,7 @@ class SleepDetailFragment : Fragment() {
         // Create an instance of the ViewModel Factory.
         val dataSource = SleepDatabase.getInstance(application).sleepDatabaseDao
         val viewModelFactory =
-            arguments?.let { SleepDetailViewModelFactory(it.sleepNightKey, dataSource) }
+            arguments?.sleepNightKey?.let { SleepDetailViewModelFactory(it, dataSource) }
 
         // Get a reference to the ViewModel associated with this fragment.
         val sleepDetailViewModel =
@@ -77,9 +77,7 @@ class SleepDetailFragment : Fragment() {
                     SleepDetailFragmentDirections.actionSleepDetailFragmentToSleepTrackerFragment())
                 // Reset state to make sure we only navigate once, even if the device
                 // has a configuration change.
-                if (sleepDetailViewModel != null) {
-                    sleepDetailViewModel.doneNavigating()
-                }
+                sleepDetailViewModel.doneNavigating()
             }
         })
 
