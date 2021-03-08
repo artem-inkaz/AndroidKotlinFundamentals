@@ -28,6 +28,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.database.SleepDatabase
 import com.example.androidkotlinfundamentals.databinding.FragmentSleepTrackerBinding
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in
@@ -81,6 +82,19 @@ class SleepTrackerFragment : Fragment() {
                 sleepTrackerViewModel.doneNavigating()
             }
         })
+
+        sleepTrackerViewModel.showSnackbarEvent.observe(viewLifecycleOwner, Observer {
+            // Inside the observer block, display the snackbar and immediately reset the event.
+            if (it == true) {
+                Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        getString(R.string.cleared_message),
+                        Snackbar.LENGTH_SHORT
+                ).show()
+                sleepTrackerViewModel.doneShowingSnackbar()
+            }
+        })
+
         return binding.root
     }
 }

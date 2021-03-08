@@ -67,6 +67,12 @@ class SleepTrackerViewModel(
         it?.isNotEmpty()
     }
 
+    private var _showSnackbarEvent = MutableLiveData<Boolean>()
+
+    val showSnackbarEvent: LiveData<Boolean>
+    get() = _showSnackbarEvent
+
+
     init {
         initializeTonight()
     }
@@ -148,11 +154,16 @@ class SleepTrackerViewModel(
 
     suspend fun clear() {
         database.clear()
+        _showSnackbarEvent.value = true
     }
 
     // doneNavigating() function that resets the variable that triggers navigation.
     fun doneNavigating() {
         _navigateToSleepQuality.value = null
+    }
+
+    fun doneShowingSnackbar(){
+        _showSnackbarEvent.value = false
     }
 }
 
