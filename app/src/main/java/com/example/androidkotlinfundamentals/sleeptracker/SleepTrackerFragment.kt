@@ -148,7 +148,7 @@ class SleepTrackerFragment : Fragment() {
             // data:
             it?.let {
 //                adapter.data = it
-                adapter.submitList(it)
+                adapter.addHeaderAndSubmitList(it)
 
             }
         })

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.mutableStateListOf
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,14 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Data
             is DataItem.Header -> ITEM_VIEW_TYPE_HEADER
             is DataItem.SleepNightItem -> ITEM_VIEW_TYPE_ITEM
         }
+    }
+
+    fun addHeaderAndSubmitList(list: List<SleepNight>?){
+        val items = when (list) {
+            null -> listOf(DataItem.Header)
+            else -> listOf(DataItem.Header) + list.map {DataItem.SleepNightItem(it)}
+        }
+        submitList(items)
     }
 
    // This function takes two parameters and returns a ViewHolder.
