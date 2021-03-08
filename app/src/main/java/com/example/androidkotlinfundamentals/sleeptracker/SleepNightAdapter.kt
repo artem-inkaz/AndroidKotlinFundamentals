@@ -41,11 +41,14 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Data
     // a view holder, and a position of the data to bind.
     // For this app, the holder is the TextItemViewHolder, and the position is the position
     // in the list.
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val item = data[position]
-//        val item = getItem(position)
-//        holder.bind(holder, item)
-        holder.bind(getItem(position)!!,clickListener)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder){
+            is ViewHolder -> {
+                val nightItem = getItem(position) as DataItem.SleepNightItem
+                holder.bind(nightItem.sleepNight,clickListener)
+            }
+        }
+
     }
     // This class inflates the textview.xml layout, and returns a TextViewHolder instance.
     // Since you've done this before, here is the code, and you'll have to import View and R:
