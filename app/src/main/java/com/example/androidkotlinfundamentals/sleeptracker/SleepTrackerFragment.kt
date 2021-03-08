@@ -61,8 +61,13 @@ class SleepTrackerFragment : Fragment() {
         val sleepTrackerViewModel =
             ViewModelProvider(
                 this,viewModelFactory).get(SleepTrackerViewModel::class.java)
+        // To use the View Model with data binding, you have to explicitly
+        // give the binding object a reference to it.
         // Назначьте переменную привязки sleepTrackerViewModel для sleepTrackerViewModel.
         binding.sleepTrackerViewModel = sleepTrackerViewModel
+
+        // Specify the current activity as the lifecycle owner of the binding.
+        // This is necessary so that the binding can observe LiveData update
         //Установите текущее действие как владельца жизненного цикла привязки.
         binding.setLifecycleOwner(this)
         // SleepTrackerFragment должен наблюдать за _navigateToSleepQuality,
@@ -70,28 +75,57 @@ class SleepTrackerFragment : Fragment() {
         // добавьте наблюдателя для navigateToSleepQuality ().
         // Обратите внимание, что импорт для этого неоднозначен,
         // и вам нужно импортировать androidx.lifecycle.Observer.
-        sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer {
+        sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer { night ->
+            // We need to get the navController from this, because button is not ready, and it
+            // just has to be a view. For some reason, this only matters if we hit stop again
+            // after using the back button, not if we hit stop and choose a quality.
+            // Also, in the Navigation Editor, for Quality -> Tracker, check "Inclusive" for
+            // popping the stack to get the correct behavior if we press stop multiple times
+            // followed by back.
+            // Also: https://stackoverflow.com/questions/28929637/difference-and-uses-of-oncreate-oncreateview-and-onactivitycreated-in-fra
+
             // Внутри блока наблюдателя перейдите и передайте идентификатор текущей ночи,
             // а затем вызовите doneNavigating (). Если ваш импорт неоднозначен,
             // импортируйте androidx.navigation.fragment.findNavController.
-                night ->
             night?.let {
                 this.findNavController().navigate(
                     SleepTrackerFragmentDirections
                         .actionSleepTrackerFragmentToSleepQualityFragment(night.nightId))
+                // Reset state to make sure we only navigate once, even if the device
+                // has a configuration change.
                 sleepTrackerViewModel.doneNavigating()
             }
         })
 
+        // Add an Observer on the state variable for showing a Snackbar message
+        // when the CLEAR button is pressed.
         sleepTrackerViewModel.showSnackbarEvent.observe(viewLifecycleOwner, Observer {
             // Inside the observer block, display the snackbar and immediately reset the event.
-            if (it == true) {
+            if (it == true) { // Observed state is true.
                 Snackbar.make(
                         requireActivity().findViewById(android.R.id.content),
                         getString(R.string.cleared_message),
-                        Snackbar.LENGTH_SHORT
+                        Snackbar.LENGTH_SHORT // How long to display the message.
                 ).show()
+                // Reset state to make sure the toast is only shown once, even if the device
+                // has a configuration change.
                 sleepTrackerViewModel.doneShowingSnackbar()
+            }
+        })
+        // create an adapter
+        val adapter = SleepNightAdapter()
+        // get a reference to the binding object, associate the adapter with the RecyclerView
+        binding.sleepList.adapter = adapter
+        // Предоставляя viewLifecycleOwner фрагмента в качестве владельца жизненного цикла,
+        // вы можете убедиться, что этот наблюдатель активен только тогда, когда
+        // RecyclerView находится на экране.
+        // create an observer on the nights variable
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
+           // Inside the observer, whenever you get a non-null value (for nights), assign the value
+            // to the adapter's data. This is the completed code for the observer and setting the
+            // data:
+            it?.let {
+                adapter.data = it
             }
         })
 

@@ -53,19 +53,28 @@ class SleepQualityFragment : Fragment() {
         // need to get the arguments that came with the navigation. These arguments are
         // in SleepQualityFragmentArgs. You need to extract them from the bundle.
         val arguments = SleepQualityFragmentArgs.fromBundle(requireArguments())
+        // Create an instance of the ViewModel Factory.
         // get the dataSource
         val dataSource = SleepDatabase.getInstance(application).sleepDatabaseDao
         // Create a factory, passing in the dataSource and the sleepNightKey
         val viewModelFactory = SleepQualityViewModelFactory(arguments.sleepNightKey, dataSource)
+        // Get a reference to the ViewModel associated with this fragment.
         // Get a ViewModel reference.
         val sleepQualityViewModel = ViewModelProvider(this, viewModelFactory).get(SleepQualityViewModel::class.java)
+
+        // To use the View Model with data binding, you have to explicitly
+        // give the binding object a reference to it.
         // Add the ViewModel to the binding object.
         binding.sleepQualityViewModel = sleepQualityViewModel
+
+        // Add an Observer to the state variable for Navigating when a Quality icon is tapped.
         // Add the observer. When prompted, import androidx.lifecycle.Observer
         sleepQualityViewModel.navigateToSleepTracker.observe(viewLifecycleOwner,Observer {
-            if (it == true) {
+            if (it == true) { // Observed state is true
                 this.findNavController().navigate(
                         SleepQualityFragmentDirections.actionSleepQualityFragmentToSleepTrackerFragment())
+                // Reset state to make sure we only navigate once, even if the device
+                // has a configuration change.
                 sleepQualityViewModel.doneNavigating()
             }
         })

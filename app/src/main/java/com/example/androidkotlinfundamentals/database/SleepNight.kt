@@ -19,7 +19,9 @@ package com.example.androidkotlinfundamentals.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+/**
+ * Represents one night's sleep through start, end times, and the sleep quality.
+ */
 @Entity(tableName = "daily_sleep_quality_table")
 data class SleepNight(
     @PrimaryKey(autoGenerate = true)
