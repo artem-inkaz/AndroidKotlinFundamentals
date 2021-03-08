@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.TextItemViewHolder
@@ -111,6 +112,26 @@ class SleepNightAdapter: RecyclerView.Adapter<SleepNightAdapter.ViewHolder>(){
             return ViewHolder(view)
         }
       }
+    }
+
+    class SleepNightDiffCallBack : DiffUtil.ItemCallback<SleepNight>(){
+        override fun areItemsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+            // To change body of created functions use File | Settings | File Templates.
+            // If the items have the same nightId, they are the same item, so return true. Otherwise,
+            // return false. DiffUtil uses this test to help discover if an item was added, removed, or moved.
+            return  oldItem.nightId == newItem.nightId
+        }
+
+        override fun areContentsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+            // To change body of created functions use File | Settings | File Templates.
+            // Inside areContentsTheSame(), check whether oldItem and newItem contain the same data;
+            // that is, whether they are equal. This equality check will check all the fields,
+            // because SleepNight is a data class. Data classes automatically define equals and
+            // a few other methods for you. If there are differences between oldItem and newItem,
+            // this code tells DiffUtil that the item has been updated.
+            return oldItem == newItem
+        }
+
     }
 }
 
