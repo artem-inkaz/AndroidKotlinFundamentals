@@ -13,11 +13,17 @@ import com.example.androidkotlinfundamentals.database.SleepNight
 import com.example.androidkotlinfundamentals.databinding.ListItemSleepNightBinding
 import com.example.androidkotlinfundamentals.sleeptracker.SleepNightAdapter.TextViewHolder.Companion.from
 import com.example.androidkotlinfundamentals.sleeptracker.SleepNightAdapter.ViewHolder.Companion.from
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private val ITEM_VIEW_TYPE_HEADER = 0
 private val ITEM_VIEW_TYPE_ITEM = 1
 
 class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(SleepNightDiffCallBack()){
+
+    private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
@@ -26,14 +32,17 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Data
         }
     }
 
-    fun addHeaderAndSubmitList(list: List<SleepNight>?){
-        val items = when (list) {
-            null -> listOf(DataItem.Header)
-            else -> listOf(DataItem.Header) + list.map {DataItem.SleepNightItem(it)}
+    fun addHeaderAndSubmitList(list: List<SleepNight>?) {
+        adapterScope.launch {
+            val items = when (list) {
+                null -> listOf(DataItem.Header)
+                else -> listOf(DataItem.Header) + list.map { DataItem.SleepNightItem(it) }
+            }
+            withContext(Dispatchers.Main) {
+                submitList(items)
+            }
         }
-        submitList(items)
     }
-
    // This function takes two parameters and returns a ViewHolder.
    // The parent parameter, which is the view group that holds the view holder,
    // is always the RecyclerView. The viewType parameter is used when there are multiple views
