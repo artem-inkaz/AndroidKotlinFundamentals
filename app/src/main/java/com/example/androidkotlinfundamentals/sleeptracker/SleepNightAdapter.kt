@@ -13,7 +13,7 @@ import com.example.androidkotlinfundamentals.databinding.ListItemSleepNightBindi
 private val ITEM_VIEW_TYPE_HEADER = 0
 private val ITEM_VIEW_TYPE_ITEM = 1
 
-class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallBack()){
+class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(SleepNightDiffCallBack()){
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
@@ -28,8 +28,12 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Slee
    // in the same RecyclerView. For example, if you put a list of text views, an image,
    // and a video all in the same RecyclerView, the onCreateViewHolder() function would need
    // to know what type of view to use.
-   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-       return ViewHolder.from(parent)
+   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+       return when (viewType){
+           ITEM_VIEW_TYPE_ITEM -> TextViewHolder.from(parent)
+           ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
+           else -> throw ClassCastException("Unknown viewType ${viewType}")
+       }
    }
 
     // function is called by RecyclerView to display the data for one list item
