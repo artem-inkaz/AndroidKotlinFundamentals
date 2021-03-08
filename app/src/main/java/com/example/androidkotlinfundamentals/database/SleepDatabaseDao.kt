@@ -60,6 +60,9 @@ interface SleepDatabaseDao{
      *
      * sorted by start time in descending order.
      */
+    // что эта функция возвращает список значений SleepNight как LiveData.
+    // Это означает, что переменная ночей содержит LiveData, которая обновляется Room,
+    // и вы можете наблюдать ночи, чтобы знать, когда они меняются.
    @Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC")
     fun getAllNights(): LiveData<List<SleepNight>>
 }

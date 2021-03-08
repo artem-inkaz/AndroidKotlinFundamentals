@@ -116,7 +116,18 @@ class SleepTrackerFragment : Fragment() {
         val adapter = SleepNightAdapter()
         // get a reference to the binding object, associate the adapter with the RecyclerView
         binding.sleepList.adapter = adapter
-
+        // Предоставляя viewLifecycleOwner фрагмента в качестве владельца жизненного цикла,
+        // вы можете убедиться, что этот наблюдатель активен только тогда, когда
+        // RecyclerView находится на экране.
+        // create an observer on the nights variable
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
+           // Inside the observer, whenever you get a non-null value (for nights), assign the value
+            // to the adapter's data. This is the completed code for the observer and setting the
+            // data:
+            it?.let {
+                adapter.data = it
+            }
+        })
 
         return binding.root
     }

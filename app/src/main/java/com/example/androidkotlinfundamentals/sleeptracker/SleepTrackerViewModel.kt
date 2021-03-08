@@ -50,7 +50,7 @@ class SleepTrackerViewModel(
      * Hold a reference to SleepDatabase via SleepDatabaseDao.
      */
 //    val database = dataSource
-    private val nights = database.getAllNights()
+    val nights = database.getAllNights() // variable, which stores all the sleep nights, which is the data to display
 
     /**
      * Converted nights to Spanned for displaying.
