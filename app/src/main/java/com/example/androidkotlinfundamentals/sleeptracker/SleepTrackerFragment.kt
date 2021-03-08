@@ -112,6 +112,11 @@ class SleepTrackerFragment : Fragment() {
                 sleepTrackerViewModel.doneShowingSnackbar()
             }
         })
+        // create an adapter
+        val adapter = SleepNightAdapter()
+        // get a reference to the binding object, associate the adapter with the RecyclerView
+        binding.sleepList.adapter = adapter
+
 
         return binding.root
     }
