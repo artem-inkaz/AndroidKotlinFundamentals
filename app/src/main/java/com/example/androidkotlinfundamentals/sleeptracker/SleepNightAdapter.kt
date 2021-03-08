@@ -5,12 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.database.SleepNight
 import com.example.androidkotlinfundamentals.databinding.ListItemSleepNightBinding
-import com.example.androidkotlinfundamentals.generated.callback.OnClickListener
 
-class SleepNightAdapter: ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallBack()){
+class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallBack()){
 //        var data = listOf<SleepNight>()
    // To tell the RecyclerView when the data that it's displaying has changed,
    // add a custom setter to the data variable that's at the top of the SleepNightAdapter class.
@@ -42,7 +40,7 @@ class SleepNightAdapter: ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(S
 //        val item = data[position]
         val item = getItem(position)
 //        holder.bind(holder, item)
-        holder.bind(item)
+        holder.bind(getItem(position)!!,clickListener)
     }
 
     // Change the signature of the ViewHolder class so that the constructor is private.
@@ -50,9 +48,10 @@ class SleepNightAdapter: ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(S
     // anyone to call the constructor of ViewHolder anymore.
     class ViewHolder private constructor(val binding: ListItemSleepNightBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: SleepNight) {
+        fun bind(item: SleepNight, clickListener: SleepNightListener) {
             binding.sleep = item
             binding.executePendingBindings()
+            binding.clickListener = clickListener
     }
 
     companion object {
