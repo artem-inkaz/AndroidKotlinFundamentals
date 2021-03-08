@@ -125,7 +125,9 @@ class SleepTrackerFragment : Fragment() {
             // to the adapter's data. This is the completed code for the observer and setting the
             // data:
             it?.let {
-                adapter.data = it
+//                adapter.data = it
+                adapter.submitList(it)
+
             }
         })
 
