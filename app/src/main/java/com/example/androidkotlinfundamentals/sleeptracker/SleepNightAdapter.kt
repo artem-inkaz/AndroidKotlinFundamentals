@@ -1,5 +1,6 @@
 package com.example.androidkotlinfundamentals.sleeptracker
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,15 +90,15 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Data
     }
 }
 
-class SleepNightDiffCallBack : DiffUtil.ItemCallback<SleepNight>(){
-    override fun areItemsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+class SleepNightDiffCallBack : DiffUtil.ItemCallback<DataItem>(){
+    override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
         // To change body of created functions use File | Settings | File Templates.
         // If the items have the same nightId, they are the same item, so return true. Otherwise,
         // return false. DiffUtil uses this test to help discover if an item was added, removed, or moved.
-        return  oldItem.nightId == newItem.nightId
+        return  oldItem.id == newItem.id
     }
-
-    override fun areContentsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+    @SuppressLint("DiffUtilEguals")
+    override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
         // To change body of created functions use File | Settings | File Templates.
         // Inside areContentsTheSame(), check whether oldItem and newItem contain the same data;
         // that is, whether they are equal. This equality check will check all the fields,
