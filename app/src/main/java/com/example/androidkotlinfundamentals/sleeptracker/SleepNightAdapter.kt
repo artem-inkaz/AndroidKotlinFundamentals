@@ -10,19 +10,18 @@ import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.database.SleepNight
 import com.example.androidkotlinfundamentals.databinding.ListItemSleepNightBinding
 
+private val ITEM_VIEW_TYPE_HEADER = 0
+private val ITEM_VIEW_TYPE_ITEM = 1
+
 class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallBack()){
-//        var data = listOf<SleepNight>()
-   // To tell the RecyclerView when the data that it's displaying has changed,
-   // add a custom setter to the data variable that's at the top of the SleepNightAdapter class.
-   // In the setter, give data a new value, then call notifyDataSetChanged() to trigger redrawing
-   // the list with the new data
-//            set(value) {
-//                field = value
-   // When notifyDataSetChanged() is called, the RecyclerView redraws the whole list,
-   // not just the changed items. This is simple, and it works for now. You improve on this code
-   // later in this series of codelabs.
-//                notifyDataSetChanged()
-//            }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is DataItem.Header -> ITEM_VIEW_TYPE_HEADER
+            is DataItem.SleepNightItem -> ITEM_VIEW_TYPE_ITEM
+        }
+    }
+
    // This function takes two parameters and returns a ViewHolder.
    // The parent parameter, which is the view group that holds the view holder,
    // is always the RecyclerView. The viewType parameter is used when there are multiple views
