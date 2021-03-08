@@ -118,7 +118,9 @@ class SleepTrackerFragment : Fragment() {
         // get a reference to the binding object, associate the adapter with the RecyclerView
         binding.sleepList.adapter = adapter
 
-        val manager =GridLayoutManager(activity,3, GridLayoutManager.VERTICAL,false)
+        val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
+//        val manager = GridLayoutManager(activity, 5, GridLayoutManager.HORIZONTAL, false)
+//        val manager = GridLayoutManager(activity, 1)
         binding.sleepList.layoutManager = manager
         // Предоставляя viewLifecycleOwner фрагмента в качестве владельца жизненного цикла,
         // вы можете убедиться, что этот наблюдатель активен только тогда, когда
