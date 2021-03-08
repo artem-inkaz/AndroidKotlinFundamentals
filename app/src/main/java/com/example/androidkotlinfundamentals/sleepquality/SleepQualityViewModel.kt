@@ -30,12 +30,12 @@ import kotlinx.coroutines.launch
  */
 class SleepQualityViewModel(
         private val sleepNightKey: Long = 0L,
-        val database: SleepDatabaseDao
+        dataSource: SleepDatabaseDao
 ) : ViewModel(){
     /**
      * Hold a reference to SleepDatabase via its SleepDatabaseDao.
      */
-//    val database = dataSource
+    val database = dataSource
     /**
      * Variable that tells the fragment whether it should navigate to [SleepTrackerFragment].
      *

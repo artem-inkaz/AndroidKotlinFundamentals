@@ -28,9 +28,9 @@ import kotlinx.coroutines.launch
  * ViewModel for SleepTrackerFragment.
  */
 class SleepTrackerViewModel(
-       val database: SleepDatabaseDao,
-        application: Application) : AndroidViewModel(application) {
-
+        dataSource: SleepDatabaseDao,
+        application: Application) : ViewModel() {
+//    application: Application) : AndroidViewModel(application)
 
     // create a LiveData that changes when you want the app to navigate to the SleepQualityFragment.
     // Use encapsulation to only expose a gettable version of the LiveData to the ViewModel.
@@ -49,7 +49,7 @@ class SleepTrackerViewModel(
     /**
      * Hold a reference to SleepDatabase via SleepDatabaseDao.
      */
-//    val database = dataSource
+    val database = dataSource
     val nights = database.getAllNights() // variable, which stores all the sleep nights, which is the data to display
 
     /**

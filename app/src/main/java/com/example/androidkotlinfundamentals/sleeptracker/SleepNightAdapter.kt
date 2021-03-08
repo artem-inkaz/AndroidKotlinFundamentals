@@ -1,5 +1,6 @@
 package com.example.androidkotlinfundamentals.sleeptracker
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -46,6 +47,12 @@ class SleepNightAdapter: RecyclerView.Adapter<TextItemViewHolder>(){
         // This code displays only a list of numbers, but this simple example lets you see
         // how the adapter gets the data into the view holder and onto the screen.
         holder.textView.text = item.sleepQuality.toString()
+        // set the text color to red in view holders that hold quality ratings that are less than or equal to 1 and represent poor sleep.
+        if (item.sleepQuality <= 1) {
+            holder.textView.setTextColor(Color.RED)
+        } else {
+            holder.textView.setTextColor(Color.BLACK)
+        }
     }
     // o return the size of the list of sleep nights in data.
     // The RecyclerView needs to know how many items the adapter has for it to display,
