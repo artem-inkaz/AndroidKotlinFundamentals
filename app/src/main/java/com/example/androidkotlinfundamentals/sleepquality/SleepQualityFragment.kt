@@ -58,11 +58,11 @@ class SleepQualityFragment : Fragment() {
         // Create a factory, passing in the dataSource and the sleepNightKey
         val viewModelFactory = SleepQualityViewModelFactory(arguments.sleepNightKey, dataSource)
         // Get a ViewModel reference.
-        val SleepQualityViewModel = ViewModelProvider(this, viewModelFactory).get(SleepQualityViewModel::class.java)
+        val sleepQualityViewModel = ViewModelProvider(this, viewModelFactory).get(SleepQualityViewModel::class.java)
         // Add the ViewModel to the binding object.
         binding.sleepQualityViewModel = sleepQualityViewModel
         // Add the observer. When prompted, import androidx.lifecycle.Observer
-        sleepQualityViewModel.navigateToSleepTracker.observe(this,Observer {
+        sleepQualityViewModel.navigateToSleepTracker.observe(viewLifecycleOwner,Observer {
             if (it == true) {
                 this.findNavController().navigate(
                         SleepQualityFragmentDirections.actionSleepQualityFragmentToSleepTrackerFragment())
