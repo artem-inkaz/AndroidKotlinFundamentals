@@ -1,10 +1,12 @@
 package com.example.androidkotlinfundamentals.sleeptracker
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.database.SleepNight
 import com.example.androidkotlinfundamentals.databinding.ListItemSleepNightBinding
 
@@ -42,6 +44,17 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Slee
 //        holder.bind(holder, item)
         holder.bind(getItem(position)!!,clickListener)
     }
+    // This class inflates the textview.xml layout, and returns a TextViewHolder instance.
+    // Since you've done this before, here is the code, and you'll have to import View and R:
+    class TextViewHolder (view: View): RecyclerView.ViewHolder(view){
+        companion object{
+            fun from(parent: ViewGroup): TextViewHolder {
+                val layoutInflater = LayoutInflater.from (parent.context)
+                val view = layoutInflater.inflate(R.layout.header, parent, false)
+                return TextViewHolder(view)
+            }
+        }
+    }
 
     // Change the signature of the ViewHolder class so that the constructor is private.
     // Because from() is now a method that returns a new ViewHolder instance, there's no reason for
@@ -52,7 +65,6 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Slee
             binding.sleep = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
-
     }
 
     companion object {
