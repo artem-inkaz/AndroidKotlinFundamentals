@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.database.SleepNight
 import com.example.androidkotlinfundamentals.databinding.ListItemSleepNightBinding
+import com.example.androidkotlinfundamentals.generated.callback.OnClickListener
 
 class SleepNightAdapter: ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallBack()){
 //        var data = listOf<SleepNight>()
@@ -90,3 +91,6 @@ class SleepNightDiffCallBack : DiffUtil.ItemCallback<SleepNight>(){
 
 }
 
+class SleepNightListener(val clickListener: (sleepId: Long) -> Unit){
+    fun  onClick(night: SleepNight) = clickListener(night.nightId)
+}
