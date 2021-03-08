@@ -103,6 +103,10 @@ class SleepTrackerViewModel(
     val showSnackbarEvent: LiveData<Boolean>
     get() = _showSnackbarEvent
 
+    private val _navigateToSleepDetail = MutableLiveData<Long>()
+    val navigateToSleepDetail
+        get() = _navigateToSleepDetail
+
     /**
      * Call this immediately after navigating to [SleepQualityFragment]
      *
@@ -251,6 +255,10 @@ class SleepTrackerViewModel(
 
     suspend fun clear() {
         database.clear()
+    }
+
+    fun onSleepNightClicked(id: Long){
+        _navigateToSleepDetail.value = id
     }
 }
 
