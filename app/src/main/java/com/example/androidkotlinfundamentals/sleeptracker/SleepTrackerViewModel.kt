@@ -32,20 +32,6 @@ class SleepTrackerViewModel(
         application: Application) : ViewModel() {
 //    application: Application) : AndroidViewModel(application)
 
-    // create a LiveData that changes when you want the app to navigate to the SleepQualityFragment.
-    // Use encapsulation to only expose a gettable version of the LiveData to the ViewModel.
-    /**
-     * Variable that tells the Fragment to navigate to a specific [SleepQualityFragment]
-     *
-     * This is private because we don't want to expose setting this value to the Fragment.
-     */
-    private val _navigateToSleepQuality = MutableLiveData<SleepNight>()
-    /**
-     * If this is non-null, immediately navigate to [SleepQualityFragment] and call [doneNavigating]
-     */
-    val navigateToSleepQuality: LiveData<SleepNight>
-        get() = _navigateToSleepQuality
-
     /**
      * Hold a reference to SleepDatabase via SleepDatabaseDao.
      */
@@ -103,6 +89,24 @@ class SleepTrackerViewModel(
     val showSnackbarEvent: LiveData<Boolean>
     get() = _showSnackbarEvent
 
+    // create a LiveData that changes when you want the app to navigate to the SleepQualityFragment.
+    // Use encapsulation to only expose a gettable version of the LiveData to the ViewModel.
+    /**
+     * Variable that tells the Fragment to navigate to a specific [SleepQualityFragment]
+     *
+     * This is private because we don't want to expose setting this value to the Fragment.
+     */
+    private val _navigateToSleepQuality = MutableLiveData<SleepNight>()
+    /**
+     * If this is non-null, immediately navigate to [SleepQualityFragment] and call [doneNavigating]
+     */
+    val navigateToSleepQuality: LiveData<SleepNight>
+        get() = _navigateToSleepQuality
+
+    private val _navigateToSleepDetail = MutableLiveData<Long>()
+    val navigateToSleepDetail
+        get() = _navigateToSleepDetail
+
     /**
      * Call this immediately after navigating to [SleepQualityFragment]
      *
@@ -123,6 +127,13 @@ class SleepTrackerViewModel(
         _showSnackbarEvent.value = false
     }
 
+    fun onSleepDetailNavigated() {
+        _navigateToSleepDetail.value = null
+    }
+
+    fun onSleepNightClicked(id: Long){
+        _navigateToSleepDetail.value = id
+    }
 
     init {
         initializeTonight()
@@ -180,6 +191,16 @@ class SleepTrackerViewModel(
         database.insert(night)
     }
 
+    // Implement update() using the same pattern as you used to implement insert().
+    // and android:onClick="@{() -> sleepTrackerViewModel.onStopTracking()}"
+    private suspend fun update(night: SleepNight) {
+        database.update(night)
+    }
+
+    private suspend fun clear() {
+        database.clear()
+    }
+
     // If the end time hasn't been set yet, set the endTimeMilli to the current
     // system time and call update() with the night data.
     fun onStopTracking() {
@@ -195,12 +216,6 @@ class SleepTrackerViewModel(
             // проходя по ночам.
             _navigateToSleepQuality.value = oldNight
         }
-    }
-
-    // Implement update() using the same pattern as you used to implement insert().
-    // and android:onClick="@{() -> sleepTrackerViewModel.onStopTracking()}"
-    private suspend fun update(night: SleepNight) {
-        database.update(night)
     }
 
     /**
@@ -249,8 +264,7 @@ class SleepTrackerViewModel(
         }
     }
 
-    suspend fun clear() {
-        database.clear()
-    }
+
+
 }
 

@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -114,13 +115,37 @@ class SleepTrackerFragment : Fragment() {
             }
         })
         // create an adapter
-        val adapter = SleepNightAdapter()
+        val adapter = SleepNightAdapter(SleepNightListener { nightId ->
+//            Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
+            // Add the following code below the toast to call a click handler, onSleepNightClicked(),
+            // in the sleepTrackerViewModel when an item is tapped. Pass in the nightId, so the view
+            // model knows which sleep night to get.
+            sleepTrackerViewModel.onSleepNightClicked(nightId)
+        })
         // get a reference to the binding object, associate the adapter with the RecyclerView
         binding.sleepList.adapter = adapter
+
+        sleepTrackerViewModel.navigateToSleepDetail.observe(viewLifecycleOwner, Observer { night ->
+            night?.let {
+                this.findNavController().navigate(
+                    SleepTrackerFragmentDirections
+                        .actionSleepTrackerFragmentToSleepDetailFragment(night))
+                sleepTrackerViewModel.onSleepDetailNavigated()
+            }
+        })
+
 
         val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
 //        val manager = GridLayoutManager(activity, 5, GridLayoutManager.HORIZONTAL, false)
 //        val manager = GridLayoutManager(activity, 1)
+
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
+            override fun getSpanSize(position: Int) = when (position){
+                0 -> 3
+                else -> 1
+            }
+        }
+
         binding.sleepList.layoutManager = manager
         // Предоставляя viewLifecycleOwner фрагмента в качестве владельца жизненного цикла,
         // вы можете убедиться, что этот наблюдатель активен только тогда, когда
@@ -132,7 +157,7 @@ class SleepTrackerFragment : Fragment() {
             // data:
             it?.let {
 //                adapter.data = it
-                adapter.submitList(it)
+                adapter.addHeaderAndSubmitList(it)
 
             }
         })
