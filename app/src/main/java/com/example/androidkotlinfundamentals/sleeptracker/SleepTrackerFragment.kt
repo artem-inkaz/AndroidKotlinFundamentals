@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.database.SleepDatabase
 import com.example.androidkotlinfundamentals.databinding.FragmentSleepTrackerBinding
@@ -116,6 +117,11 @@ class SleepTrackerFragment : Fragment() {
         val adapter = SleepNightAdapter()
         // get a reference to the binding object, associate the adapter with the RecyclerView
         binding.sleepList.adapter = adapter
+
+        val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
+//        val manager = GridLayoutManager(activity, 5, GridLayoutManager.HORIZONTAL, false)
+//        val manager = GridLayoutManager(activity, 1)
+        binding.sleepList.layoutManager = manager
         // Предоставляя viewLifecycleOwner фрагмента в качестве владельца жизненного цикла,
         // вы можете убедиться, что этот наблюдатель активен только тогда, когда
         // RecyclerView находится на экране.
@@ -130,7 +136,6 @@ class SleepTrackerFragment : Fragment() {
 
             }
         })
-
         return binding.root
     }
 }
