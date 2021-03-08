@@ -130,6 +130,5 @@ class SleepTrackerViewModel(
     fun doneNavigating(){
         _navigateToSleepQuality.value = null
     }
-
 }
 
