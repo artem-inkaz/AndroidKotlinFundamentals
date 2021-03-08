@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidkotlinfundamentals.R
 import com.example.androidkotlinfundamentals.database.SleepNight
 import com.example.androidkotlinfundamentals.databinding.ListItemSleepNightBinding
+import com.example.androidkotlinfundamentals.sleeptracker.SleepNightAdapter.TextViewHolder.Companion.from
+import com.example.androidkotlinfundamentals.sleeptracker.SleepNightAdapter.ViewHolder.Companion.from
 
 private val ITEM_VIEW_TYPE_HEADER = 0
 private val ITEM_VIEW_TYPE_ITEM = 1
@@ -40,7 +42,7 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Data
    // to know what type of view to use.
    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
        return when (viewType){
-           ITEM_VIEW_TYPE_ITEM -> TextViewHolder.from(parent)
+           ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
            ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
            else -> throw ClassCastException("Unknown viewType ${viewType}")
        }
@@ -58,12 +60,11 @@ class SleepNightAdapter(val clickListener: SleepNightListener): ListAdapter<Data
                 holder.bind(nightItem.sleepNight,clickListener)
             }
         }
-
     }
     // This class inflates the textview.xml layout, and returns a TextViewHolder instance.
     // Since you've done this before, here is the code, and you'll have to import View and R:
     class TextViewHolder (view: View): RecyclerView.ViewHolder(view){
-        companion object{
+        companion object {
             fun from(parent: ViewGroup): TextViewHolder {
                 val layoutInflater = LayoutInflater.from (parent.context)
                 val view = layoutInflater.inflate(R.layout.header, parent, false)
@@ -137,6 +138,7 @@ sealed class DataItem {
     object Header: DataItem(){
         override val id = Long.MIN_VALUE
     }
+
 }
 
 class SleepNightListener(val clickListener: (sleepId: Long) -> Unit){
