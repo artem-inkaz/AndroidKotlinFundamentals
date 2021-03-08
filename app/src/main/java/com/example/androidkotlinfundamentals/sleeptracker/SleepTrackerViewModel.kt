@@ -257,6 +257,10 @@ class SleepTrackerViewModel(
         database.clear()
     }
 
+    fun onSleepDetailNavigated() {
+        _navigateToSleepDetail.value = null
+    }
+
     fun onSleepNightClicked(id: Long){
         _navigateToSleepDetail.value = id
     }

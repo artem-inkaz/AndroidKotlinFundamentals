@@ -15,7 +15,9 @@ import com.example.androidkotlinfundamentals.database.SleepNight
 
     @BindingAdapter("sleepQualityString")
     fun TextView.setSleepQualityString(item: SleepNight) {
-        text = convertNumericQualityToString(item.sleepQuality, context.resources)
+        item?.let {
+            text = convertNumericQualityToString(item.sleepQuality, context.resources)
+        }
     }
     @BindingAdapter("sleepImage")
     fun ImageView.setSleepImage(item: SleepNight) {
@@ -29,4 +31,3 @@ import com.example.androidkotlinfundamentals.database.SleepNight
             else -> R.drawable.ic_sleep_active
         })
     }
-

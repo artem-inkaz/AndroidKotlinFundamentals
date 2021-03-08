@@ -117,9 +117,22 @@ class SleepTrackerFragment : Fragment() {
         // create an adapter
         val adapter = SleepNightAdapter(SleepNightListener { nightId ->
             Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
+            // Add the following code below the toast to call a click handler, onSleepNightClicked(),
+            // in the sleepTrackerViewModel when an item is tapped. Pass in the nightId, so the view
+            // model knows which sleep night to get.
+            sleepTrackerViewModel.onSleepNightClicked(nightId)
         })
         // get a reference to the binding object, associate the adapter with the RecyclerView
         binding.sleepList.adapter = adapter
+
+        sleepTrackerViewModel.navigateToSleepDetail.observe(viewLifecycleOwner, Observer { night ->
+            night?.let {
+                this.findNavController().navigate(
+                    SleepTrackerFragmentDirections
+                        .actionSleepTrackerFragmentToSleepDetailFragment(night))
+                sleepTrackerViewModel.onSleepDetailNavigated()
+            }
+        })
 
         val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
 //        val manager = GridLayoutManager(activity, 5, GridLayoutManager.HORIZONTAL, false)
