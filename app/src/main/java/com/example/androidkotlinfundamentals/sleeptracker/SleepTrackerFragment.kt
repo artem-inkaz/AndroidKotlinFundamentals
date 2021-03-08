@@ -134,9 +134,18 @@ class SleepTrackerFragment : Fragment() {
             }
         })
 
+
         val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
 //        val manager = GridLayoutManager(activity, 5, GridLayoutManager.HORIZONTAL, false)
 //        val manager = GridLayoutManager(activity, 1)
+
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
+            override fun getSpanSize(position: Int) = when (position){
+                0 -> 3
+                else -> 1
+            }
+        }
+
         binding.sleepList.layoutManager = manager
         // Предоставляя viewLifecycleOwner фрагмента в качестве владельца жизненного цикла,
         // вы можете убедиться, что этот наблюдатель активен только тогда, когда
