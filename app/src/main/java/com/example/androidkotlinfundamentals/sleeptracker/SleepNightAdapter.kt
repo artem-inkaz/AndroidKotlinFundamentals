@@ -2,7 +2,9 @@ package com.example.androidkotlinfundamentals.sleeptracker
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidkotlinfundamentals.R
@@ -58,5 +60,15 @@ class SleepNightAdapter: RecyclerView.Adapter<TextItemViewHolder>(){
     // The RecyclerView needs to know how many items the adapter has for it to display,
     // and it does that by calling getItemCount()
     override fun getItemCount() = data.size
+}
+
+class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    // get references to the views. You need a reference to the views that this ViewHolder will update.
+    // Every time you bind this ViewHolder, you need to access the image and both text views.
+// (You convert this code to use data binding later.)
+    val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
+    val quality: TextView = itemView.findViewById(R.id.quality_string)
+    val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
+
 }
 
