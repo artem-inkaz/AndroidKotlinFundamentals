@@ -6,11 +6,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidkotlinfundamentals.R
-import com.example.androidkotlinfundamentals.convertDurationToFormatted
-import com.example.androidkotlinfundamentals.convertNumericQualityToString
 import com.example.androidkotlinfundamentals.database.SleepNight
 import com.example.androidkotlinfundamentals.databinding.ListItemSleepNightBinding
-import com.example.androidkotlinfundamentals.sleeptracker.SleepNightAdapter.ViewHolder.Companion.from
 
 class SleepNightAdapter: ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallBack()){
 //        var data = listOf<SleepNight>()

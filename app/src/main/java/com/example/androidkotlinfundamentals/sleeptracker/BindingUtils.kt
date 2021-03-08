@@ -8,7 +8,6 @@ import com.example.androidkotlinfundamentals.convertDurationToFormatted
 import com.example.androidkotlinfundamentals.convertNumericQualityToString
 import com.example.androidkotlinfundamentals.database.SleepNight
 
-class BindingUtils {
     @BindingAdapter("sleepDurationFormatted")
     fun TextView.setSleepDurationFormatted(item: SleepNight) {
         text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, context.resources)
@@ -31,4 +30,3 @@ class BindingUtils {
         })
     }
 
-}
